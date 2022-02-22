@@ -17,40 +17,39 @@ interface IERC20 {
     ) external returns (bool);
 }
 
+// goal = users can launch a campaign staking their goal (amt of tokens they want to raise)
+// startAt = time when the campaign will start
+// endAt = time when the campaign will end 
+
 contract CrowdFund is UsingTellor {
     event Launch(
         uint256 id,
         address indexed creator,
-        uint256 goal,
+        uint256 goal, 
         uint32 startAt,
         uint32 endAt
     );
-    event Cancel(uint256 id);
-    event Pledge(uint256 indexed id, address indexed caller, uint256 amount);
-    event Unpledge(uint256 indexed id, address indexed caller, uint256 amount);
-    event Claim(uint256 id);
-    event Refund(uint256 id, address indexed caller, uint256 amount);
+    event Cancel(uint256 id); // creator of campaign can cancel if campaign has not yet started
+    event Pledge(uint256 indexed id, address indexed caller, uint256 amount); // user can pedge to a campaign
+    event Unpledge(uint256 indexed id, address indexed caller, uint256 amount); // user can change their mind and unpledge
+    event Claim(uint256 id); // if goal is met, campaign creator can claim what was pledged
+    event Refund(uint256 id, address indexed caller, uint256 amount); // if goal is not met, users can get a refund of their pledged funds
 
     struct Campaign {
-        // Creator of campaign
-        address creator;
-        // Amount of tokens to raise
-        uint256 goal;
-        // Total amount pledged
-        uint256 pledged;
-        // Timestamp of start of campaign
-        uint32 startAt;
-        // Timestamp of end of campaign
-        uint32 endAt;
-        // True if goal was reached and creator has claimed the tokens.
-        bool claimed;
+        
+        address creator; // Creator of campaign
+        uint256 goal; // Amount of tokens to raise
+        uint256 pledged; // Total amount pledged
+        uint32 startAt; // Timestamp of start of campaign
+        uint32 endAt; // Timestamp of end of campaign
+        bool claimed; // True if goal was reached and creator has claimed the tokens.
     }
 
     IERC20 public immutable token;
     // Total count of campaigns created.
     // It is also used to generate id for new campaigns.
     uint256 public count;
-    // Mapping from id to Campaign
+    // Mapping from id to Campaign (key => value)
     mapping(uint256 => Campaign) public campaigns;
     // Mapping from campaign id => pledger => amount pledged
     mapping(uint256 => mapping(address => uint256)) public pledgedAmount;
