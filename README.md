@@ -8,9 +8,9 @@ Objective:
 - Fans raise ETH and pay the band once new music is available to the public
 
 Important factors:
-- Minted tokens apon funding (token cap is capped but can be made un-capped)
+- Minted tokens apon funding
 - Refund policy if goal is not met
-- Uses Tellor datafeeds about when the music is relesed
+- Uses Tellor datafeeds about when the music is relesed via TellorPlayground
 
 Minted Token Tiers:
 - Supporter = buys 1 - 256 tokens (just gets tokens)
