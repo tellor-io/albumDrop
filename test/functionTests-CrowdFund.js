@@ -26,7 +26,7 @@ describe("Function testing", function () {
     await crowdFund.deployed();
 
     queryDataArgs = abiCoder.encode(
-      ["uint256", "uint256"],
+      ["address", "uint256"],
       [crowdFund.address, albumID]
     );
 
@@ -42,8 +42,12 @@ describe("Function testing", function () {
   });
 
   it("Should submit and read to oracle", async function () {
+
+    
     // submit value takes 4 args : queryId, value, nonce and queryData
     await tellorOracle.submitValue(queryID, valuesEncoded, 0, queryData);
+    // await crowdFund.didHappen(1)
+    // expect(balanceOf(band).to.equal(1000 tokens);
     let retrievedVal = await crowdFund.getCurrentValue(queryID);
     decoded = abiCoder.decode(["bool", "address"], retrievedVal[1]);
     expect(String(decoded)).to.equal(String([true, addr1.address]));
