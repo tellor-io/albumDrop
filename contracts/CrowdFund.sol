@@ -129,9 +129,10 @@ contract CrowdFund is UsingTellor {
 
     // Tellor function for establishing album drop. Specify the _id# below
     function didHappen(uint256 _id) public {
+        require(msg.sender == campaigns[_id].creator, "not creator");
         bool _a;
         address _addy;
-        bytes32 _queryId = keccak256(abi.encode("albumDrop", abi.encode(_id)));
+        bytes32 _queryId = keccak256(abi.encode("albumDrop", abi.encode(address(this),_id)));
 
         (bool _ifRetrieve, bytes memory _val, ) = getCurrentValue(_queryId);
         require(_ifRetrieve, "must get data to execute vote");
